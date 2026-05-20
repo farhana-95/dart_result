@@ -1,8 +1,8 @@
-name: flutter_form_validators
+name: dart_result
 description: A Result<T, E> type for elegant error handling in Dart without try/catch.
 version: 1.0.0
-repository: https://github.com/farhana-95/flutter_form_validators
-homepage: https://github.com/farhana-95/flutter_form_validators
+repository: https://github.com/farhana-95/dart_result
+homepage: https://github.com/farhana-95/dart_result
 
 environment:
   sdk: ^3.9.2
