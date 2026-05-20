@@ -8,21 +8,23 @@ Inspired by Result types in Rust and Kotlin, built for modern Dart 3 with sealed
 
 ## Features
 
-- ✅ Typed success and failure — no exceptions, no nulls
-- ✅ Exhaustive pattern matching with Dart 3 `switch`
-- ✅ Works in Flutter, Dart CLI, and backend projects
-- ✅ Zero dependencies
-- ✅ Fully null-safe
+ ✅ Typed success and failure — no exceptions, no nulls
+ ✅ Exhaustive pattern matching with Dart 3 `switch`
+ ✅ Works in Flutter, Dart CLI, and backend projects
+ ✅ Zero dependencies
+ ✅ Fully null-safe
 
 ---
 
 ## Installation
 
+yaml
 ```yaml
 dependencies:
   dart_result: ^1.0.0
 ```
 
+bash
 ```bash
 dart pub add dart_result
 ```
