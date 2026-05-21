@@ -3,19 +3,18 @@ import 'package:test/test.dart';
 
 void main() {
   group('Result', () {
-
     setUp(() {
       // Additional setup goes here.
     });
 
     test('Success holds a value', () {
       final r = Result<int, String>.success(42);
-      expect((r as Success).value,42);
+      expect((r as Success).value, 42);
     });
 
     test('Failure holds an error', () {
       final r = Result<int, String>.failure('Oops! error');
-      expect((r as Failure).error,'Oops! error');
+      expect((r as Failure).error, 'Oops! error');
     });
 
     test('pattern match works', () {
@@ -27,7 +26,7 @@ void main() {
       expect(msg, 'Got 1');
     });
 
-   test('success is not failure', () {
+    test('success is not failure', () {
       final r = Result<int, String>.success(42);
       expect(r, isA<Success>());
       expect(r, isNot(isA<Failure>()));
@@ -38,6 +37,5 @@ void main() {
       expect(r, isA<Failure>());
       expect(r, isNot(isA<Success>()));
     });
-
   });
 }
