@@ -1,6 +1,7 @@
 library;
 
 /// A sealed class representing either a [Success] or a [Failure].
+///
 /// Use [Result.success] to wrap a successful value and
 /// [Result.failure] to wrap an error.
 
