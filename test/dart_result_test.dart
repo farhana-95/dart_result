@@ -3,9 +3,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Result', () {
-    setUp(() {
-      // Additional setup goes here.
-    });
 
     test('Success holds a value', () {
       final r = Result<int, String>.success(42);
@@ -37,5 +34,48 @@ void main() {
       expect(r, isA<Failure>());
       expect(r, isNot(isA<Success>()));
     });
+
+    test('isSuccess returns true for Success', () {
+      final r = Result<int, String>.success(42);
+      expect(r.isSuccess, true);
+      expect(r.isFailure, false);
+    });
+
+    test('isFailure returns true for Failure', () {
+      final r = Result<int, String>.failure('err');
+      expect(r.isFailure, true);
+      expect(r.isSuccess, false);
+    });
+
+    test('getOrNull returns value on Success', () {
+      final r = Result<int, String>.success(42);
+      expect(r.getOrNull(), 42);
+    });
+
+    test('getOrNull returns null on Failure', () {
+      final r = Result<int, String>.failure('err');
+      expect(r.getOrNull(), null);
+    });
+
+    test('errorOrNull returns error on Failure', () {
+      final r = Result<int, String>.failure('err');
+      expect(r.errorOrNull(), 'err');
+    });
+
+    test('errorOrNull returns null on Success', () {
+      final r = Result<int, String>.success(42);
+      expect(r.errorOrNull(), null);
+    });
+
+    test('getOrDefault returns value on Success', () {
+      final r = Result<int, String>.success(42);
+      expect(r.getOrDefault(0), 42);
+    });
+
+    test('getOrDefault returns default on Failure', () {
+      final r = Result<int, String>.failure('err');
+      expect(r.getOrDefault(0), 0);
+    });
+
   });
 }

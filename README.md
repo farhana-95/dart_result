@@ -8,23 +8,22 @@ Inspired by Result types in Rust and Kotlin, built for modern Dart 3 with sealed
 
 ## Features
 
- ✅ Typed success and failure — no exceptions, no nulls
- ✅ Exhaustive pattern matching with Dart 3 `switch`
- ✅ Works in Flutter, Dart CLI, and backend projects
- ✅ Zero dependencies
- ✅ Fully null-safe
+- ✅ Typed success and failure — no exceptions, no nulls
+- ✅ Exhaustive pattern matching with Dart 3 `switch`
+- ✅ Helper methods — `isSuccess`, `isFailure`, `getOrNull()`, `errorOrNull()`, `getOrDefault()`
+- ✅ Works in Flutter, Dart CLI, and backend projects
+- ✅ Zero dependencies
+- ✅ Fully null-safe
 
 ---
 
 ## Installation
 
-yaml
 ```yaml
 dependencies:
   dart_result: ^1.0.0
 ```
 
-bash
 ```bash
 dart pub add dart_result
 ```
@@ -45,8 +44,10 @@ void main() {
   final result = divide(10, 2);
 
   switch (result) {
-    case Success(:final value) => print('Result: $value'),
-    case Failure(:final error) => print('Error: $error'),
+    case Success(:final value):
+      print('Result: $value');
+    case Failure(:final error):
+      print('Error: $error');
   }
 }
 ```
@@ -70,8 +71,10 @@ Result<String, String> getUsername(int id) {
 final result = getUsername(1);
 
 switch (result) {
-  case Success(:final value) => print('Welcome, $value'),
-  case Failure(:final error) => print('Error: $error'),
+  case Success(:final value):
+    print('Welcome, $value');
+  case Failure(:final error):
+    print('Error: $error');
 }
 ```
 
@@ -92,6 +95,7 @@ if (result is Failure) {
 ### Using with async / Future
 
 ```dart
+// try/catch lives once — only at the data layer
 Future<Result<User, String>> fetchUser(int id) async {
   try {
     final user = await api.getUser(id);
@@ -101,11 +105,14 @@ Future<Result<User, String>> fetchUser(int id) async {
   }
 }
 
+// No try/catch anywhere else — clean pattern matching
 final result = await fetchUser(1);
 
 switch (result) {
-  case Success(:final value) => showProfile(value),
-  case Failure(:final error) => showError(error),
+  case Success(:final value):
+    showProfile(value);
+  case Failure(:final error):
+    showError(error);
 }
 ```
 
@@ -129,12 +136,48 @@ void submitForm(String email, String password) {
 
   switch ((emailResult, passwordResult)) {
     case (Success(:final value), Success()):
-      print('Form valid, email: $value'),
+      print('Form valid, email: $value');
     case (Failure(:final error), _):
-      print('Email error: $error'),
+      print('Email error: $error');
     case (_, Failure(:final error)):
-      print('Password error: $error'),
+      print('Password error: $error');
   }
+}
+```
+
+### Using helper methods
+
+```dart
+final result = Result<int, String>.success(42);
+
+// Check without a switch
+if (result.isSuccess) {
+  print('It worked!');
+}
+
+// Get value safely — returns null if Failure
+final value = result.getOrNull(); // 42
+
+// Get error safely — returns null if Success
+final error = result.errorOrNull(); // null
+
+// Get value with a fallback
+final failed = Result<int, String>.failure('oops');
+final safe = failed.getOrDefault(0); // 0
+```
+
+Real world usage with helpers:
+
+```dart
+Future<void> loadUser() async {
+  final result = await fetchUser(1);
+
+  if (result.isFailure) {
+    showErrorBanner(result.errorOrNull() ?? 'Unknown error');
+    return;
+  }
+
+  showProfile(result.getOrNull()!);
 }
 ```
 
@@ -171,6 +214,16 @@ final result = Result<int, String>.failure('something went wrong');
 print((result as Failure).error); // something went wrong
 ```
 
+### Helper methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `isSuccess` | `bool` | `true` if this is a `Success` |
+| `isFailure` | `bool` | `true` if this is a `Failure` |
+| `getOrNull()` | `T?` | The value if `Success`, otherwise `null` |
+| `errorOrNull()` | `E?` | The error if `Failure`, otherwise `null` |
+| `getOrDefault(T)` | `T` | The value if `Success`, otherwise the given default |
+
 ---
 
 ## Why `Result<T, E>` over try/catch?
@@ -181,6 +234,7 @@ print((result as Failure).error); // something went wrong
 | Exhaustive handling | No | Yes — compiler enforced |
 | Composable | Hard | Easy |
 | Readable | Verbose | Concise |
+| Forgot to handle error? | Silent crash | Compile error |
 
 ---
 
@@ -197,4 +251,4 @@ Pull requests are welcome! Please open an issue first to discuss what you'd like
 
 ## License
 
-MIT © [farhana-95](https://github.com/farhana-95/dart_result)
+MIT © [farhanaakter9](https://github.com/farhanaakter9/dart_result)
