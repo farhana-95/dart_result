@@ -251,4 +251,4 @@ Pull requests are welcome! Please open an issue first to discuss what you'd like
 
 ## License
 
-MIT © [farhanaakter9](https://github.com/farhanaakter9/dart_result)
+MIT © [farhana-95](https://github.com/farhana-95)
